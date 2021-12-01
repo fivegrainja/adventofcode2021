@@ -1,13 +1,8 @@
 #! /usr/bin/env python3
 
 import sys
-import os
-from rich import print
-
-# Add parent directory to path to get aoc_utils
-current = os.path.dirname(os.path.realpath(__file__))
-parent = os.path.dirname(current)
-sys.path.append(parent)
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
 import aoc_utils
 
 day = '01'
