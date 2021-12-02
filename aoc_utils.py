@@ -4,6 +4,8 @@ from rich import print
 import rich.traceback
 rich.traceback.install(show_locals=True)
 
+from rich.panel import Panel
+
 def test_and_execute(the_func, day=None, test_assertion=None):
     """ Run the_func for both test and actual inputs, comparing
     the results from the test run with test_assertion.
@@ -11,7 +13,7 @@ def test_and_execute(the_func, day=None, test_assertion=None):
     """
     assert(isinstance(day, str)) 
 
-    print(f'For {the_func.__name__}')
+    output = []
     for input_index, input_path in enumerate((
             Path(__file__).parent / f'day{day}' / f'day{day}-test.txt',
             Path(__file__).parent / f'day{day}' / f'day{day}-input.txt')):
@@ -20,6 +22,7 @@ def test_and_execute(the_func, day=None, test_assertion=None):
         start = time.time()
         result = the_func(lines)
         duration = time.time() - start
-        print(f'  {"test" if input_index == 0 else "actual"}  ({duration} seconds) result: {result}')
+        output.append(f'{"test" if input_index == 0 else "actual"} result: {result}')
         if input_index == 0:
             assert(result == test_assertion)
+    print(Panel('\n'.join(output), title=f'{the_func.__name__} Results'))
