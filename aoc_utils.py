@@ -3,8 +3,12 @@ import time
 from rich import print
 import rich.traceback
 rich.traceback.install(show_locals=True)
-
 from rich.panel import Panel
+
+# console can be imported and used from other modules.
+from rich.console import Console
+console = Console()
+
 
 def test_and_execute(the_func, day=None, test_assertion=None):
     """ Run the_func for both test and actual inputs, comparing
@@ -13,7 +17,7 @@ def test_and_execute(the_func, day=None, test_assertion=None):
     """
     assert(isinstance(day, str)) 
 
-    output = []
+    console.rule(f'[bold red]{the_func.__name__}', align='left')
     for input_index, input_path in enumerate((
             Path(__file__).parent / f'day{day}' / f'day{day}-test.txt',
             Path(__file__).parent / f'day{day}' / f'day{day}-input.txt')):
@@ -22,7 +26,11 @@ def test_and_execute(the_func, day=None, test_assertion=None):
         start = time.time()
         result = the_func(lines)
         duration = time.time() - start
-        output.append(f'{"test" if input_index == 0 else "actual"} result: {result}')
+        print(f'[yellow]Duration:[/] {duration}')
         if input_index == 0:
             assert(result == test_assertion)
-    print(Panel('\n'.join(output), title=f'{the_func.__name__} Results'))
+            console.print(f'[bold red]Test result:[/] [magenta on yellow]{result}[/]')
+        else:
+            console.print(f'[bold red]Real-deal result:[/] [magenta on yellow]{result}[/]')
+
+    # print(Panel('\n'.join(output), title=f'{the_func.__name__} Results'))
