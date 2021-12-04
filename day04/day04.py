@@ -1,25 +1,23 @@
 #! /usr/bin/env python3
 
 import sys
-from rich import print
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
 import aoc_utils
-import itertools # https://docs.python.org/3/library/itertools.html
 
 day = '04'
 test_assertion_a = 4512
 test_assertion_b = 1924
 
-BOARD_SIZE = 5
+BOARD_SIDE = 5
 
 def build_boards_and_results(lines):
     line_i = 2
     boards = []
     while line_i < len(lines):
-        this_board = [int(p) for p in ' '.join(lines[line_i:line_i+BOARD_SIZE]).split()]
+        this_board = [int(p) for p in ' '.join(lines[line_i:line_i+BOARD_SIDE]).split()]
         boards.append(this_board)
-        line_i += BOARD_SIZE + 1
+        line_i += BOARD_SIDE + 1
     results = [[False] * len(b) for b in boards]
     return (boards, results)
 
@@ -39,12 +37,12 @@ def check_board(board_results):
     """ Return True if board is a winner, false otherwise
     """
     # Check rows
-    for i in range(0, BOARD_SIZE * ( BOARD_SIZE - 1 ), BOARD_SIZE):
-        if all(board_results[i:i+BOARD_SIZE]):
+    for i in range(0, BOARD_SIDE * ( BOARD_SIDE - 1 ), BOARD_SIDE):
+        if all(board_results[i:i+BOARD_SIDE]):
             return True
     # Check cols
-    for i in range(BOARD_SIZE):
-        if all([board_results[j] for j in range(i,BOARD_SIZE * BOARD_SIZE, BOARD_SIZE)]):
+    for i in range(BOARD_SIDE):
+        if all([board_results[j] for j in range(i,BOARD_SIDE * BOARD_SIDE, BOARD_SIDE)]):
             return True
     return False
 
@@ -60,7 +58,7 @@ def score_board(pick, board, board_results):
 def part_a(lines, find_last_winner=False):
     # Picks is a list of integer numbers to play on the boards
     picks = [int(s) for s in lines[0].split(',')]
-    # Each board is a list of BOARD_SIZE*BOARD_SIZE integers
+    # Each board is a list of BOARD_SIDE*BOARD_SIDE integers
     # boards is a list of such boards
     # results has the same shape as boards, but stores booleans in each location indicating
     # if that board space has been picked
