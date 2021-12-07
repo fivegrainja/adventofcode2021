@@ -25,6 +25,6 @@ def part_b(lines):
             count += 1
     return count
 
-aoc_utils.test_and_execute(part_a, day, test_assertion_a)
-aoc_utils.test_and_execute(part_b, day, test_assertion_b)
+aoc_utils.test_and_execute(part_a, day, test_assertion_a, Path(__file__).parent)
+aoc_utils.test_and_execute(part_b, day, test_assertion_b, Path(__file__).parent)
 

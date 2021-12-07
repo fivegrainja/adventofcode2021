@@ -83,5 +83,5 @@ def part_b(lines):
     # Same as part_a, except include diagonal lines.
     return part_a(lines, ignore_diags=False)
 
-aoc_utils.test_and_execute(part_a, day, test_assertion_a)
-aoc_utils.test_and_execute(part_b, day, test_assertion_b)
+aoc_utils.test_and_execute(part_a, day, test_assertion_a, Path(__file__).parent)
+aoc_utils.test_and_execute(part_b, day, test_assertion_b, Path(__file__).parent)
