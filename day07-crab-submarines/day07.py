@@ -56,6 +56,12 @@ def part_b(lines):
     crabs_positions = collections.Counter(crab_positions)
     cost = [0] * (max_position + 1)
     # Brute force seems sloppy, but can't think of a better way at the moment.
+    # This is O(NR) time where
+    # - N is number of crabs
+    # - R is the range of positions they occupy
+    # Rather than keeping a running step_cost for each crab we could use something like
+    # step_cost = (d^2 + d)/2 where d = abs(p-pos) # arithemtic progression
+    # which would save a bit of space.
     for pos, count in crabs_positions.items():
         step_cost = 0
         for p in range(pos - 1, -1, -1):
