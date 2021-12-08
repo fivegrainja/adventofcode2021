@@ -68,7 +68,38 @@ def part_a(lines):
 
 
 def part_b(lines):
-    """ Decipher the output on each line and return the sum of all the outputs
+    """ Decipher the output on each line and return the sum of all the outputs.
+
+    Strategy
+    For each input line start with a mapping of wires to possible segments each is 
+    connected to. To start with each wire could be mapped to any of the 7 segments.
+    We proceed through several stages to narrow this down to just one possible segment
+    for each wire. This mapping of wires to segments is wires_to_segments
+
+    Step 1 - Start with the digits we can identify based soley on number of segments. For example
+    the digit 1 is the only digit represented by just two segments. Find the input pattern that
+    has just two segments. We now that wires c and f map to those two segments (though we don't
+    know which is which yet.) In wires_to_segments we can narrow down wires c and f to just have
+    those two segments as options, and remove those two segments as options from all other wires.
+    Do this with the other digits with unique segment counts - 7, 4 and 8
+
+    Step 2 - Consider the digits comprised of 5 segments - 2, 3 and 5. Observe that
+    wire b is only active for one of those digits
+    wire e is only active for one of those digits
+    Identify the segments that show up in only one of the 5-segment patterns. Narrow the options
+    for wire b and e to those segments and remove those segments from the options for other wires.
+    Refine wires_to_segments to reflect this.
+
+    Step 3 - Similar to above, but with the 6 segment digits - 0, 6 and 9
+    wire c will be on for 2 of those digits
+    wire f will be on for 3 of those digits
+    Further refine wires_to_segments again
+
+    Step 4 - Steps 2 and 3 will result is more wires for which there is only one possible segment. For each of these
+    remove that segment from the list of possible segments for any other wires.
+
+    At this point wires_to_segments will have one possible segment for each wire. By using this mapping in reverse
+    we can translate the digits in the output, create an integer from them, and sum them.
     """
     sum = 0
     for line in lines:
