@@ -1,5 +1,7 @@
 #! /usr/bin/env python3
 
+# See day<number>-questions.txt for context to this solution
+
 import sys
 from rich import print
 from pathlib import Path

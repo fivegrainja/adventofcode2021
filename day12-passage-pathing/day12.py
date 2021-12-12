@@ -1,11 +1,12 @@
 #! /usr/bin/env python3
 
+# See day<number>-questions.txt for context to this solution
+
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
 import aoc_utils
 import string
-import collections # https://docs.python.org/3/library/collections.html
 
 day = '12'
 
@@ -56,6 +57,8 @@ def build_paths(map, path_so_far, allow_dupe_small):
         elif step == 'start':
             # Don't traverse start again, for either part a or b
             pass
+        # Steps are all uppercase or all lowercase, so we can get away with just checking
+        # the first character rather than the entire string.
         elif step[0] in string.ascii_uppercase:
             # Big caves (uppercase) can always be visited more than once
             results.extend(build_paths(map, path_so_far + [step], allow_dupe_small))
