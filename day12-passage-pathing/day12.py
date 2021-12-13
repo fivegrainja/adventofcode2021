@@ -57,16 +57,13 @@ def build_paths(map, path_so_far, allow_dupe_small):
         elif step == 'start':
             # Don't traverse start again, for either part a or b
             pass
-        # Steps are all uppercase or all lowercase, so we can get away with just checking
-        # the first character rather than the entire string.
         elif step[0] in string.ascii_uppercase:
             # Big caves (uppercase) can always be visited more than once
             results.extend(build_paths(map, path_so_far + [step], allow_dupe_small))
         elif step[0] in string.ascii_lowercase:
+            # Small caves (lowercas) can only be visited once, unliss allow_dupe_small
             if step in path_so_far:
-                # This neighbor cave is lowercase and we've visited it before in this path
                 if allow_dupe_small:
-                    # We can allow a 2nd visit to a small cave on this path
                     # Passing allow_dupe_small=False to prevent another small cave from being added
                     # to this path a 2nd time.
                     results.extend(build_paths(map, path_so_far + [step], False))
