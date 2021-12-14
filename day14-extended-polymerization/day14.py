@@ -16,7 +16,6 @@ test_assertion_a = 1588
 test_assertion_b = 2188189693529
 
 
-# Read lines from the input file
 def read_polymer_and_replacements(lines):
     """ Parse input lines and return initial polymer and the replacement mappings
     """
@@ -58,21 +57,6 @@ def part_a(lines):
     return counts_sorted[0][1] - counts_sorted[-1][1]
 
 
-def get_counts_from_pairs(pairs, polymer):
-    """ Given a dictionary of counts of pairings of elements return the 
-    count of each element. Each element will appear in two pairings (once on the left
-    and once on the right) except for the first and last elements of the polymer.
-    """
-    counts = collections.defaultdict(lambda: 0)
-    # Just count the left element of each pair. This gets rid of the duplicates, includes the first
-    # element in polymer, but will not count the very last element
-    for (left, right), count in pairs.items():
-        counts[left] += count
-    # Count that very last element
-    counts[polymer[-1]] += 1
-    return counts
-
-
 def part_b(lines):
     """ Starting with the given polymer apply the growth mapping 40 times and return
     the different between the counts of the most common and least common elements in
@@ -112,7 +96,15 @@ def part_b(lines):
             new_pairs[replacements[left + right] + right] += count
         pairs = new_pairs
 
-    counts = get_counts_from_pairs(pairs, polymer)
+    # Each element will appear in two pairings (once on the left and once on the right) except for 
+    # the very first and last elements of the polymer.
+    # Just count the left element of each pair. This gets rid of the duplicates, includes the first
+    # element in polymer, but will not count the very last element
+    counts = collections.defaultdict(lambda: 0)
+    for (left, right), count in pairs.items():
+        counts[left] += count
+    # Count that very last element
+    counts[polymer[-1]] += 1
     return max(counts.values()) - min(counts.values())
 
 
