@@ -10,7 +10,7 @@ from rich.console import Console
 console = Console()
 
 
-def test_and_execute(the_func, day=None, test_assertion=None, path=Path(__file__)):
+def test_and_execute(the_func, day=None, test_assertion=None, path=Path(__file__), sep_part_b_input=False):
     """ Run the_func for both test and actual inputs, comparing
     the results from the test run with test_assertion.
     Prints results.    
@@ -18,9 +18,13 @@ def test_and_execute(the_func, day=None, test_assertion=None, path=Path(__file__
     assert(isinstance(day, str)) 
 
     console.rule(f'[bold red]{the_func.__name__}', align='left')
+    if sep_part_b_input:
+        suffix = '-b'
+    else:
+        suffix = ''
     for input_index, input_path in enumerate((
-            path / f'day{day}-test.txt',
-            path / f'day{day}-input.txt')):
+            path / f'day{day}-test{suffix}.txt',
+            path / f'day{day}-input{suffix}.txt')):
         with input_path.open('r') as f:
             lines = [line.strip() for line in f.readlines()]
         start = time.time()
